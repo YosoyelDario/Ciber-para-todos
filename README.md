@@ -62,6 +62,18 @@ Copia `.env.example` a `.env` (no se sube al repo) y completa lo que uses:
 - Google solo se carga cuando alguien elige esa pestaña.
 - Nunca subas `.env` ni pegues claves en issues, chats o commits.
 
+## Accesibilidad
+
+Hecho: foco visible en todo control, enlace "Saltar al contenido", landmarks (`header`, `nav`, `main`, `footer`),
+acordeón con Radix (teclado + `aria-expanded`), lista de colegios con `aria-pressed`, marcadores del mapa con nombre
+accesible (Tab + Enter), anuncio de la selección para lectores de pantalla, `Esc` cierra el detalle,
+`prefers-reduced-motion` respetado (CSS y desplazamientos del mapa), tamaños de texto en `rem`, íconos decorativos
+con `aria-hidden`.
+
+Pendiente / manual: probar con un lector de pantalla real (NVDA o VoiceOver), zoom al 200 %, navegación solo con teclado,
+y escribir `imageAlt` en `temas.ts` cuando se agreguen imágenes. El mapa es visual: la lista de colegios es su
+equivalente en texto.
+
 ## Diseño
 
 `DESIGN.md` es la referencia visual. Tokens en `src/index.css` (variables CSS, oscuro por defecto;
@@ -73,8 +85,9 @@ de marcador de Leaflet (marcadores propios en CSS), así que no depende de cdnjs
 - **Logo de la universidad**: reemplaza el bloque punteado en `Header.tsx` por
   `<img src="/logo-universidad.png" className="h-12 w-12 object-contain" />`.
   Pon el archivo en `public/`.
-- **Imágenes de cada temática**: hoy el panel derecho de `TemasSection.tsx` muestra un ícono de línea
-  (`tema.icon`). Agrega un campo `image` en `temas.ts` y cambia ese bloque por un `<img>`.
+- **Imágenes de cada temática**: la tarjeta (`TemaPreview.tsx`) ya tiene un recuadro 16:10 que muestra
+  `tema.image` si existe (ej. `image: "/temas/ciberacoso.jpg"`, con el archivo en `public/temas/`) y, si no,
+  el ícono. En escritorio es el panel fijo de la derecha; en móvil y tablet aparece dentro del desplegable.
 - **Links "Más información"**: hoy apuntan a `"#"`. Actualiza el campo `link`
   de cada tema en `temas.ts`.
 - **Colores y tipografía**: están centralizados en `tailwind.config.js`

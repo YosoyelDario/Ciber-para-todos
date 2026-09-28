@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { APIProvider, Map, AdvancedMarker, ColorScheme, useMap } from "@vis.gl/react-google-maps";
 import { colegios } from "@/content/colegios";
-import { GOOGLE_KEY, GOOGLE_MAP_ID, HOME, HOME_ZOOM, SCHOOL_ZOOM } from "@/lib/mapConfig";
+import { GOOGLE_KEY, GOOGLE_MAP_ID, HOME, HOME_ZOOM, SCHOOL_ZOOM, prefersReducedMotion } from "@/lib/mapConfig";
 
 type Props = { dark: boolean; activeIndex: number | null; onMarkerClick: (i: number) => void };
 
@@ -11,13 +11,12 @@ function PanToActive({ activeIndex }: { activeIndex: number | null }) {
   useEffect(() => {
     if (!map) return;
     if (first.current) { first.current = false; return; }
-    if (activeIndex === null) {
-      map.panTo({ lat: HOME[0], lng: HOME[1] });
-      map.setZoom(HOME_ZOOM);
-    } else {
-      map.panTo({ lat: colegios[activeIndex].lat, lng: colegios[activeIndex].lng });
-      map.setZoom(SCHOOL_ZOOM);
-    }
+    const target = activeIndex === null
+      ? { lat: HOME[0], lng: HOME[1] }
+      : { lat: colegios[activeIndex].lat, lng: colegios[activeIndex].lng };
+    if (prefersReducedMotion()) map.setCenter(target);
+    else map.panTo(target);
+    map.setZoom(activeIndex === null ? HOME_ZOOM : SCHOOL_ZOOM);
   }, [activeIndex, map]);
   return null;
 }
@@ -29,7 +28,7 @@ export default function GoogleMapView({ dark, activeIndex, onMarkerClick }: Prop
       <div className="flex h-[420px] items-center justify-center p-8 md:h-[540px]">
         <div className="max-w-[46ch] text-center text-fg2">
           <div className="font-geist text-heading-sm font-medium text-fg">Falta la clave de Google Maps</div>
-          <p className="mt-3 text-[15px]">
+          <p className="mt-3 text-[0.9375rem]">
             Crea un archivo <code className="text-fg">.env</code> con{" "}
             <code className="text-fg">VITE_GOOGLE_MAPS_API_KEY=tu_clave</code> y reinicia{" "}
             <code className="text-fg">npm run dev</code>. Mira <code className="text-fg">.env.example</code>.

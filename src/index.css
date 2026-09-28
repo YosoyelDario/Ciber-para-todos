@@ -50,7 +50,7 @@ body { @apply bg-canvas text-fg font-dm antialiased; }
 .leaflet-control-attribution a { color: rgb(var(--fg)) !important; }
 
 /* Marcadores propios: punto + brillo violeta (Radial Spotlight) al activarse */
-.cpt-marker { background: transparent; border: none; }
+.cpt-marker { background: transparent; border: none; border-radius: 9999px; }
 .cpt-marker .halo {
   position: absolute; inset: 0; border-radius: 9999px; opacity: 0; transition: opacity .25s;
   background: radial-gradient(circle, rgba(107,98,242,.8) 0%, rgba(107,98,242,0) 68%);
@@ -65,3 +65,16 @@ body { @apply bg-canvas text-fg font-dm antialiased; }
 
 /* Respaldo OSM en modo oscuro: OSM no ofrece tiles oscuros, se simulan con un filtro */
 .osm-dark .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9) saturate(0.6); }
+
+/* ---------- Accesibilidad ---------- */
+:focus-visible { outline: 2px solid rgb(var(--fg)); outline-offset: 2px; }
+#top :focus-visible { outline-color: #fff; } /* sobre el degradado del hero */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

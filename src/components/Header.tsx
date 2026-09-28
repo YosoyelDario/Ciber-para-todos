@@ -1,34 +1,114 @@
-import { Shield } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Shield, PanelLeftOpen, X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
+import { useActiveSection } from "@/lib/useActiveSection";
 
 type Props = { dark: boolean; onToggleTheme: () => void };
 
 const ghost =
   "hidden rounded-full border border-line/30 px-3.5 py-1.5 text-sm text-fg/85 transition hover:bg-glass/10 sm:block";
 
-/** Floating Frosted Nav: píldora flotante a 16px del borde. */
-export default function Header({ dark, onToggleTheme }: Props) {
+function Brand({ big }: { big: boolean }) {
   return (
-    <header className="fixed inset-x-4 top-4 z-[2000]">
-      <nav className="mx-auto grid max-w-[1200px] grid-cols-[1fr_auto_1fr] items-center gap-3 rounded-nav border border-line/20 bg-surface/80 px-3.5 py-2.5 backdrop-blur-sm">
-        <div className="flex items-center gap-2">
-          <ThemeToggle dark={dark} onToggle={onToggleTheme} />
-          <a href="#temas" className={ghost}>Temas</a>
-          <a href="#colegios" className={ghost}>Colegios</a>
-        </div>
+    <a href="#top" className="flex items-center gap-2.5">
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cta text-cta-fg">
+        <Shield aria-hidden="true" size={16} strokeWidth={1.75} />
+      </span>
+      <span
+        className={`font-medium tracking-tight transition-[font-size] ${
+          big ? "text-xl sm:text-2xl md:text-[1.75rem]" : "text-lg sm:text-xl"
+        }`}
+      >
+        CiberParaTodos
+      </span>
+    </a>
+  );
+}
 
-        <a href="#top" className="flex items-center gap-2.5">
-          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-cta text-cta-fg">
-            <Shield size={16} strokeWidth={1.75} />
-          </span>
-          <span className="text-lg font-medium tracking-tight sm:text-xl">CiberParaTodos</span>
-        </a>
+/** El banner completo: igual en el hero y cuando se "expande" desde la barra lateral. */
+function TopNav({ dark, onToggleTheme, big, onCollapse }: Props & { big: boolean; onCollapse?: () => void }) {
+  return (
+    <nav
+      aria-label="Principal"
+      className="mx-auto grid max-w-[1200px] grid-cols-[1fr_auto_1fr] items-center gap-3 rounded-nav border border-line/20 bg-surface/80 px-3.5 py-2.5 backdrop-blur-sm"
+    >
+      <div className="flex items-center gap-2">
+        <ThemeToggle dark={dark} onToggle={onToggleTheme} />
+        <a href="#temas" className={ghost}>Temas</a>
+        <a href="#colegios" className={ghost}>Colegios</a>
+      </div>
 
+      <Brand big={big} />
+
+      <div className="flex items-center justify-end gap-2">
+        {onCollapse && (
+          <button
+            onClick={onCollapse}
+            aria-label="Ocultar el menú y volver a la barra lateral"
+            title="Ocultar menú"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-line/30 text-fg/85 transition hover:bg-glass/10"
+          >
+            <X size={16} strokeWidth={1.5} aria-hidden="true" />
+          </button>
+        )}
         {/* Logo universidad: reemplaza por <img src="/logo-universidad.png" className="h-12 w-12 object-contain" /> */}
-        <div className="flex h-12 w-12 items-center justify-center justify-self-end rounded-ui border border-dashed border-line/40 text-center text-[10px] leading-tight text-fg2">
-          LOGO<br />U.
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-ui border border-dashed border-line/40 text-center text-[0.625rem] leading-tight text-fg2">
+          <img src="/logoU.png" className="h-12 w-12 object-contain" />  
         </div>
-      </nav>
-    </header>
+      </div>
+    </nav>
+  );
+}
+
+/**
+ * Header con dos formas:
+ * - En el hero (o si el usuario la "expande"): el banner flotante de siempre.
+ * - Al bajar a Temas o Colegios (solo en escritorio): se reduce a una barra
+ *   lateral con el toggle de tema como acceso rápido y un botón para volver
+ *   a mostrar el banner.
+ * En móvil el banner queda siempre arriba, para no restarle ancho a la pantalla.
+ */
+export default function Header({ dark, onToggleTheme }: Props) {
+  const section = useActiveSection();
+  const [expanded, setExpanded] = useState(false);
+
+  // Al volver al hero, la barra lateral no tiene sentido: se resetea.
+  useEffect(() => {
+    if (section === "top") setExpanded(false);
+  }, [section]);
+
+  const showTop = section === "top" || expanded;
+
+  return (
+    <>
+      {/* Móvil: el banner siempre está arriba */}
+      <div className="fixed inset-x-4 top-4 z-[2000] sm:hidden">
+        <TopNav dark={dark} onToggleTheme={onToggleTheme} big={section === "top"} />
+      </div>
+
+      {/* Escritorio */}
+      {showTop ? (
+        <div className="fixed inset-x-4 top-4 z-[2000] hidden animate-fade-up sm:block">
+          <TopNav
+            dark={dark}
+            onToggleTheme={onToggleTheme}
+            big={section === "top"}
+            onCollapse={section !== "top" ? () => setExpanded(false) : undefined}
+          />
+        </div>
+      ) : (
+        <div className="fixed left-4 top-1/2 z-[2000] hidden -translate-y-1/2 animate-fade-up flex-col gap-2 rounded-full border border-line/20 bg-surface/80 p-2 backdrop-blur-sm sm:flex">
+          <ThemeToggle dark={dark} onToggle={onToggleTheme} />
+          <button
+            onClick={() => setExpanded(true)}
+            aria-label="Mostrar el menú principal"
+            title="Mostrar menú"
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-line/30 text-fg/85 transition hover:bg-glass/10"
+          >
+            <PanelLeftOpen size={17} strokeWidth={1.5} aria-hidden="true" />
+          </button>
+        </div>
+      )}
+    </>
   );
 }

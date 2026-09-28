@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MapPin, ArrowUpRight, X } from "lucide-react";
 import { colegios } from "@/content/colegios";
 import SectionHeader from "./SectionHeader";
@@ -23,12 +23,26 @@ export default function SchoolsSection({ dark }: { dark: boolean }) {
   };
   const school = active === null ? null : colegios[active];
 
+  // Escape cierra el detalle
+  useEffect(() => {
+    if (active === null) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setActive(null); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [active]);
+
   return (
-    <section id="colegios" className="mx-auto max-w-[1200px] px-6 pt-20">
+    <section id="colegios" aria-labelledby="colegios-titulo" className="mx-auto max-w-[1200px] px-6 pt-20">
       <SectionHeader
+        id="colegios-titulo"
         title="Colegios visitados"
         text="Selecciona un colegio en la lista para ubicarlo en el mapa, o toca un marcador para encontrarlo en la lista."
       />
+
+      {/* Anuncia la selección a lectores de pantalla */}
+      <p role="status" className="sr-only">
+        {school ? `Colegio seleccionado: ${school.name}, ${school.place}.` : ""}
+      </p>
 
       <div className="mt-12 grid items-end gap-10 lg:grid-cols-[340px_1fr]">
         <SchoolList activeIndex={active} onSelect={setActive} />
@@ -37,11 +51,11 @@ export default function SchoolsSection({ dark }: { dark: boolean }) {
         <div className="relative overflow-hidden rounded-t-large border border-b-0 border-line/20 bg-surface">
           <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line/15 px-5 py-3">
             <div className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-line/25 px-3 py-1 text-caption">
-                <MapPin size={13} strokeWidth={1.5} /> {colegios.length} colegios
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-line/25 px-3 py-1.5 text-caption">
+                <MapPin size={13} strokeWidth={1.5} aria-hidden="true" /> {colegios.length} colegios
               </span>
               {school && (
-                <button onClick={() => setActive(null)} className="rounded-full border border-line/25 px-3 py-1 text-caption text-fg2 transition hover:bg-glass/10">
+                <button onClick={() => setActive(null)} className="rounded-full border border-line/25 px-3 py-1.5 text-caption text-fg2 transition hover:bg-glass/10">
                   Ver todo
                 </button>
               )}
@@ -52,7 +66,7 @@ export default function SchoolsSection({ dark }: { dark: boolean }) {
                   key={p.id}
                   aria-pressed={provider === p.id}
                   onClick={() => choose(p.id)}
-                  className={`rounded-full px-3 py-1 transition ${provider === p.id ? "bg-cta text-cta-fg" : "text-fg2 hover:text-fg"}`}
+                  className={`rounded-full px-3 py-1.5 transition ${provider === p.id ? "bg-cta text-cta-fg" : "text-fg2 hover:text-fg"}`}
                 >
                   {p.label}
                 </button>
@@ -60,13 +74,14 @@ export default function SchoolsSection({ dark }: { dark: boolean }) {
             </div>
           </div>
 
-          {provider === "leaflet" ? (
-            <LeafletMap key="leaflet" dark={dark} activeIndex={active} onMarkerClick={setActive} />
-          ) : (
-            <GoogleMapView key="google" dark={dark} activeIndex={active} onMarkerClick={setActive} />
-          )}
+          <div role="region" aria-label="Mapa de colegios visitados">
+            {provider === "leaflet" ? (
+              <LeafletMap key="leaflet" dark={dark} activeIndex={active} onMarkerClick={setActive} />
+            ) : (
+              <GoogleMapView key="google" dark={dark} activeIndex={active} onMarkerClick={setActive} />
+            )}
+          </div>
 
-          {/* Tarjeta de vidrio con el detalle, sube sobre el mapa */}
           {school && (
             <div key={active} className="absolute bottom-4 left-4 right-4 z-[1100] animate-fade-up rounded-card border border-line/20 bg-surface/85 p-5 backdrop-blur-sm md:right-auto md:w-[340px]">
               <div className="flex items-start justify-between gap-3">
@@ -74,12 +89,12 @@ export default function SchoolsSection({ dark }: { dark: boolean }) {
                   <div className="text-caption uppercase text-fg2">Colegio visitado</div>
                   <h3 className="mt-1 font-geist text-heading-sm font-medium">{school.name}</h3>
                 </div>
-                <button onClick={() => setActive(null)} aria-label="Cerrar" className="rounded-full border border-line/25 p-1.5 text-fg2 transition hover:bg-glass/10">
-                  <X size={14} strokeWidth={1.5} />
+                <button onClick={() => setActive(null)} aria-label="Cerrar detalle" title="Cerrar (Esc)" className="rounded-full border border-line/25 p-2 text-fg2 transition hover:bg-glass/10">
+                  <X size={14} strokeWidth={1.5} aria-hidden="true" />
                 </button>
               </div>
               <div className="mt-2 flex items-center gap-1.5 text-fg2">
-                <MapPin size={14} strokeWidth={1.5} /> {school.place}
+                <MapPin size={14} strokeWidth={1.5} aria-hidden="true" /> {school.place}
               </div>
               <div className="mt-1 text-caption tabular-nums text-fg2">
                 {school.lat.toFixed(4)}, {school.lng.toFixed(4)}
@@ -89,7 +104,9 @@ export default function SchoolsSection({ dark }: { dark: boolean }) {
                 target="_blank" rel="noopener noreferrer"
                 className="mt-4 inline-flex items-center gap-1.5 rounded-full bg-cta px-4 py-2 text-sm text-cta-fg transition hover:opacity-90"
               >
-                Abrir en OpenStreetMap <ArrowUpRight size={14} strokeWidth={1.5} />
+                Abrir en OpenStreetMap
+                <span className="sr-only"> (se abre en una pestaña nueva)</span>
+                <ArrowUpRight size={14} strokeWidth={1.5} aria-hidden="true" />
               </a>
             </div>
           )}

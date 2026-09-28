@@ -10,8 +10,7 @@ export default function App() {
   const [dark, setDark] = useState(true);
 
   useEffect(() => {
-    const saved = localStorage.getItem("cpt-theme");
-    if (saved === "light") setDark(false);
+    if (localStorage.getItem("cpt-theme") === "light") setDark(false);
   }, []);
 
   useEffect(() => {
@@ -26,9 +25,15 @@ export default function App() {
 
   return (
     <div>
+      <a
+        href="#contenido"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[3000] focus:rounded-full focus:bg-cta focus:px-4 focus:py-2 focus:text-cta-fg"
+      >
+        Saltar al contenido
+      </a>
       <Header dark={dark} onToggleTheme={toggleTheme} />
-      <Hero />
-      <main>
+      <main id="contenido" tabIndex={-1} className="focus:outline-none">
+        <Hero />
         <TemasSection />
         <SchoolsSection dark={dark} />
       </main>

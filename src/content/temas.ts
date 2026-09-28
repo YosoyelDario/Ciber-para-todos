@@ -7,6 +7,8 @@ export type Tema = {
   group: string;
   title: string;
   icon: LucideIcon; // ícono de línea; puedes sumar un campo `image` si quieres foto/ilustración
+  image?: string; // opcional: ruta en /public (ej. "/temas/ciberacoso.jpg"). Si falta, se muestra el ícono
+  imageAlt?: string; // descripción real de la imagen (lectores de pantalla)
   link: string; // URL "más información"
   body: string;
   tips: string[];
@@ -18,6 +20,8 @@ export const temas: Tema[] = [
     group: "Amenazas interpersonales y conductuales",
     title: "Ciberacoso",
     icon: MessageSquareWarning,
+    image: "/temas/ciberacoso.webp",
+    imageAlt: "Descripción real de lo que muestra la imagen",
     link: "#",
     body: "Es hostigar, burlarse, amenazar o difundir contenido ofensivo sobre otra persona a través de internet o redes sociales, de forma repetida.",
     tips: [
@@ -33,6 +37,8 @@ export const temas: Tema[] = [
     title: "Grooming",
     icon: ShieldAlert,
     link: "#",
+    image: "/temas/grooming.jpeg",
+    imageAlt: "Descripción real de lo que muestra la imagen",
     body: "Ocurre cuando una persona adulta se acerca a un niño, niña o adolescente en internet, generalmente ganándose su confianza poco a poco, con la intención de manipularlo o abusar de él.",
     tips: [
       "Ninguna persona adulta desconocida necesita ganarse tu confianza en privado ni pedirte secretos o fotos.",
@@ -46,6 +52,8 @@ export const temas: Tema[] = [
     group: "Amenazas interpersonales y conductuales",
     title: "Sexting y difusión no consentida",
     icon: LockKeyhole,
+    image: "/temas/sexting.jpeg",
+    imageAlt: "Descripción real de lo que muestra la imagen",
     link: "#",
     body: "El sexting es enviar fotos o videos íntimos por internet. El problema es que, una vez enviados, se pierde el control sobre ellos: pueden reenviarse sin permiso, algo que causa un daño grave y es un delito.",
     tips: [
@@ -59,6 +67,8 @@ export const temas: Tema[] = [
     group: "Amenazas interpersonales y conductuales",
     title: "Suplantación de identidad",
     icon: UserX,
+    image: "/temas/suplantaciondeidentidad.jpg",
+    imageAlt: "Descripción real de lo que muestra la imagen",
     link: "#",
     body: "Es cuando alguien crea un perfil falso haciéndose pasar por ti (o por otra persona), o usa tu cuenta sin tu permiso para publicar o hablar en tu nombre.",
     tips: [
@@ -73,6 +83,8 @@ export const temas: Tema[] = [
     group: "Amenazas interpersonales y conductuales",
     title: "Exposición excesiva de información",
     icon: MapPin,
+    image: "/temas/oversharing.jpeg",
+    imageAlt: "Descripción real de lo que muestra la imagen",
     link: "#",
     body: "Publicar datos personales, tu ubicación en tiempo real, tus rutinas diarias o muchas fotos puede darle a personas desconocidas información suficiente para ubicarte o conocer tus hábitos.",
     tips: [
@@ -87,6 +99,8 @@ export const temas: Tema[] = [
     group: "Riesgos técnicos y estafas digitales",
     title: "Phishing y mensajes engañosos",
     icon: Fish,
+    image: "/temas/phishing.jpg",
+    imageAlt: "Descripción real de lo que muestra la imagen",
     link: "#",
     body: "Son mensajes o correos que se hacen pasar por una empresa o servicio conocido (un banco, un juego, una red social) para que entregues tu contraseña o tus datos personales o bancarios.",
     tips: [
@@ -102,6 +116,8 @@ export const temas: Tema[] = [
     title: "Malware y aplicaciones peligrosas",
     icon: Bug,
     link: "#",
+    image: "/temas/malware.jpeg",
+    imageAlt: "Descripción real de lo que muestra la imagen",
     body: "Son programas o archivos que, al instalarse, dañan tu dispositivo, roban tu información o espían lo que haces, muchas veces disfrazados de una app normal.",
     tips: [
       "Descarga aplicaciones solo desde las tiendas oficiales (Google Play, App Store).",
@@ -115,6 +131,8 @@ export const temas: Tema[] = [
     group: "Riesgos técnicos y estafas digitales",
     title: "Robo de cuentas y contraseñas",
     icon: KeyRound,
+    image: "/temas/robo.jpeg",
+    imageAlt: "Descripción real de lo que muestra la imagen",
     link: "#",
     body: "Es cuando alguien logra entrar sin tu permiso a tu red social, tu correo o tu cuenta de videojuegos, generalmente porque adivinó, robó o compró tu contraseña.",
     tips: [
@@ -130,6 +148,8 @@ export const temas: Tema[] = [
     title: "Estafas en videojuegos y redes sociales",
     icon: Gamepad2,
     link: "#",
+    image: "/temas/estafa.jpeg",
+    imageAlt: "Descripción real de lo que muestra la imagen",
     body: "Son ofertas falsas de premios, monedas o ítems gratis, o ventas de productos que en realidad no existen, diseñadas para que pagues o entregues tus datos.",
     tips: [
       "Desconfía de \"monedas gratis\" o \"skins gratis\" que piden tu usuario y contraseña en una página externa.",
@@ -143,6 +163,8 @@ export const temas: Tema[] = [
     group: "Riesgos técnicos y estafas digitales",
     title: "Enlaces, códigos QR y descargas maliciosas",
     icon: QrCode,
+    image: "/temas/quishing.jpeg",
+    imageAlt: "Descripción real de lo que muestra la imagen",
     link: "#",
     body: "Un enlace, código QR o archivo puede llevarte a un sitio falso o instalar un programa peligroso sin que te des cuenta, incluso si parece venir de alguien conocido.",
     tips: [
