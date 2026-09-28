@@ -1,20 +1,42 @@
 /** @type {import('tailwindcss').Config} */
+const v = (name) => `rgb(var(--${name}) / <alpha-value>)`;
+
 export default {
-  darkMode: "class",
   content: ["./index.html", "./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        navy: { DEFAULT: "#101B2D", 2: "#182640" },
-        paper: { DEFAULT: "#F6F3EC", 2: "#FFFFFF" },
-        ink: { DEFAULT: "#182233", soft: "#4C5568" },
-        amber: { DEFAULT: "#E7A33E", ink: "#5C3B0B" },
-        teal: "#3E8E86",
-        line: "#DCD6C7",
+        canvas: v("canvas"), // Void Canvas
+        surface: v("surface"), // Graphite
+        glass: v("glass"), // Frosted Glass (usar con /10)
+        fg: v("fg"), // Bone
+        fg2: v("fg2"), // Ash
+        line: v("line"), // Hairline
+        cta: v("cta"),
+        "cta-fg": v("cta-fg"),
+        violet: "#6b62f2", // Dusk Violet: solo en degradados / brillos
       },
       fontFamily: {
-        display: ["'Space Grotesk'", "system-ui", "sans-serif"],
-        body: ["Inter", "system-ui", "sans-serif"],
+        dm: ["'DM Sans'", "ui-sans-serif", "system-ui", "sans-serif"],
+        geist: ["Geist", "ui-sans-serif", "system-ui", "sans-serif"],
+      },
+      fontSize: {
+        caption: ["13px", { lineHeight: "1.5", letterSpacing: "0.33px" }],
+        subheading: ["18px", { lineHeight: "1.5" }],
+        "heading-sm": ["24px", { lineHeight: "1.33" }],
+        heading: ["clamp(28px,4vw,36px)", { lineHeight: "1.11" }],
+        display: ["clamp(42px,7vw,72px)", { lineHeight: "1", letterSpacing: "-0.035em" }],
+      },
+      borderRadius: { ui: "10px", nav: "19px", card: "24px", large: "40px", panel: "42px" },
+      keyframes: {
+        "acc-down": { from: { height: "0" }, to: { height: "var(--radix-accordion-content-height)" } },
+        "acc-up": { from: { height: "var(--radix-accordion-content-height)" }, to: { height: "0" } },
+        "fade-up": { from: { opacity: "0", transform: "translateY(10px)" }, to: { opacity: "1", transform: "none" } },
+      },
+      animation: {
+        "acc-down": "acc-down .25s ease-out",
+        "acc-up": "acc-up .2s ease-out",
+        "fade-up": "fade-up .35s ease-out",
       },
     },
   },

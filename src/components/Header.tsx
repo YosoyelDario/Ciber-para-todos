@@ -1,32 +1,34 @@
+import { Shield } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 
-type Props = {
-  dark: boolean;
-  onToggleTheme: () => void;
-};
+type Props = { dark: boolean; onToggleTheme: () => void };
 
+const ghost =
+  "hidden rounded-full border border-line/30 px-3.5 py-1.5 text-sm text-fg/85 transition hover:bg-glass/10 sm:block";
+
+/** Floating Frosted Nav: píldora flotante a 16px del borde. */
 export default function Header({ dark, onToggleTheme }: Props) {
   return (
-    <div className="bg-navy border-b border-white/10 px-6 py-4">
-      <div className="mx-auto grid max-w-5xl grid-cols-[1fr_auto_1fr] items-center gap-4">
-        <ThemeToggle dark={dark} onToggle={onToggleTheme} />
+    <header className="fixed inset-x-4 top-4 z-[2000]">
+      <nav className="mx-auto grid max-w-[1200px] grid-cols-[1fr_auto_1fr] items-center gap-3 rounded-nav border border-line/20 bg-surface/80 px-3.5 py-2.5 backdrop-blur-sm">
+        <div className="flex items-center gap-2">
+          <ThemeToggle dark={dark} onToggle={onToggleTheme} />
+          <a href="#temas" className={ghost}>Temas</a>
+          <a href="#colegios" className={ghost}>Colegios</a>
+        </div>
 
-        <div className="flex items-center justify-center gap-3 text-center">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber text-navy font-display text-lg font-bold">
-            🛡
-          </div>
-          <span className="font-display text-2xl font-bold tracking-tight text-[#F3F1EA]">
-            CiberParaTodos
+        <a href="#top" className="flex items-center gap-2.5">
+          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-cta text-cta-fg">
+            <Shield size={16} strokeWidth={1.75} />
           </span>
-        </div>
+          <span className="text-lg font-medium tracking-tight sm:text-xl">CiberParaTodos</span>
+        </a>
 
-        {/* Reemplaza este bloque por <img src="/logo-universidad.png" className="h-16 w-16 object-contain" /> */}
-        <div className="justify-self-end flex h-16 w-16 items-center justify-center rounded-lg border border-dashed border-white/35 text-center text-[11px] leading-tight text-white/45">
-          LOGO
-          <br />
-          Universidad
+        {/* Logo universidad: reemplaza por <img src="/logo-universidad.png" className="h-12 w-12 object-contain" /> */}
+        <div className="flex h-12 w-12 items-center justify-center justify-self-end rounded-ui border border-dashed border-line/40 text-center text-[10px] leading-tight text-fg2">
+          LOGO<br />U.
         </div>
-      </div>
-    </div>
+      </nav>
+    </header>
   );
 }

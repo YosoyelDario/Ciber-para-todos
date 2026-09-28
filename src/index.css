@@ -2,14 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  scroll-behavior: smooth;
+/* Tema oscuro (por defecto, según DESIGN.md) */
+:root {
+  --canvas: 10 10 10;
+  --surface: 22 22 22;
+  --glass: 212 212 212;
+  --fg: 237 237 237;
+  --fg2: 194 194 194;
+  --line: 229 229 229;
+  --cta: 255 255 255;
+  --cta-fg: 22 22 22;
+  --marker: 255 255 255;
+  color-scheme: dark;
+}
+/* Variante clara: extrapolación de las superficies invertidas del sistema */
+:root.light {
+  --canvas: 247 247 245;
+  --surface: 255 255 255;
+  --glass: 10 10 10;
+  --fg: 22 22 22;
+  --fg2: 82 82 82;
+  --line: 10 10 10;
+  --cta: 22 22 22;
+  --cta-fg: 255 255 255;
+  --marker: 22 22 22;
+  color-scheme: light;
 }
 
-body {
-  @apply bg-paper text-ink font-body dark:bg-[#12161F] dark:text-[#EDEAE1];
-}
+html { scroll-behavior: smooth; }
+body { @apply bg-canvas text-fg font-dm antialiased; }
+::selection { background: rgb(107 98 242 / 0.45); }
 
-.leaflet-container {
-  font-family: inherit;
+/* ---------- Leaflet adaptado al sistema (sin sombras, hairlines, píldoras) ---------- */
+.leaflet-container { font-family: inherit; background: rgb(var(--canvas)); }
+.leaflet-bar { border: none !important; box-shadow: none !important; }
+.leaflet-bar a {
+  background: rgb(var(--surface) / 0.9) !important;
+  color: rgb(var(--fg)) !important;
+  border: 1px solid rgb(var(--line) / 0.2) !important;
+  border-radius: 9999px !important;
+  margin-bottom: 6px; width: 32px !important; height: 32px !important; line-height: 30px !important;
 }
+.leaflet-control-attribution {
+  background: rgb(var(--surface) / 0.7) !important;
+  color: rgb(var(--fg2)) !important; font-size: 10px;
+}
+.leaflet-control-attribution a { color: rgb(var(--fg)) !important; }
+
+/* Marcadores propios: punto + brillo violeta (Radial Spotlight) al activarse */
+.cpt-marker { background: transparent; border: none; }
+.cpt-marker .halo {
+  position: absolute; inset: 0; border-radius: 9999px; opacity: 0; transition: opacity .25s;
+  background: radial-gradient(circle, rgba(107,98,242,.8) 0%, rgba(107,98,242,0) 68%);
+}
+.cpt-marker .dot {
+  position: absolute; left: 50%; top: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px;
+  border-radius: 9999px; background: rgb(var(--marker)); border: 2px solid rgb(var(--canvas));
+  transition: transform .2s;
+}
+.cpt-marker.is-active .halo { opacity: 1; }
+.cpt-marker.is-active .dot { transform: scale(1.4); }
+
+/* Respaldo OSM en modo oscuro: OSM no ofrece tiles oscuros, se simulan con un filtro */
+.osm-dark .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.9) saturate(0.6); }

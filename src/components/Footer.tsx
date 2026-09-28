@@ -9,36 +9,25 @@ const contacts = [
 
 export default function Footer() {
   return (
-    <footer className="bg-navy px-6 pb-8 pt-11 text-[#C9C5B8]">
-      <div className="mx-auto max-w-5xl">
-        <h3 className="mb-1.5 font-display text-xl text-[#F3F1EA]">
-          ¿Necesitas ayuda o quieres coordinar una visita?
-        </h3>
-        <p className="mb-6 max-w-[52ch] text-sm text-[#9C98A6]">
-          Escríbenos por cualquiera de estos canales y te respondemos a la brevedad.
-        </p>
+    <footer className="border-t border-line/15 bg-canvas px-6 pb-8 pt-16">
+      <div className="mx-auto max-w-[1200px]">
+        <h3 className="font-geist text-heading font-medium">¿Necesitas ayuda o quieres coordinar una visita?</h3>
+        <p className="mt-3 max-w-[52ch] text-fg2">Escríbenos por cualquiera de estos canales y te respondemos a la brevedad.</p>
 
-        <div className="flex flex-wrap gap-3">
+        <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {contacts.map(({ icon: Icon, label, value, href }) => (
-            <a
-              key={label}
-              href={href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex flex-1 basis-[220px] items-center gap-3 rounded-lg border border-white/10 bg-white/5 px-4 py-3.5 text-[#F3F1EA] transition hover:border-amber/40 hover:bg-amber/10"
-            >
-              <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-amber/20 text-amber">
-                <Icon size={18} />
-              </span>
-              <span>
-                <span className="block text-xs text-[#9C98A6]">{label}</span>
-                <span className="block text-sm font-medium">{value}</span>
+            <a key={label} href={href} target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-3.5 rounded-card border border-line/15 bg-glass/[0.07] p-4 transition hover:bg-glass/[0.12]">
+              <span className="flex h-10 w-10 items-center justify-center rounded-ui border border-line/20"><Icon size={18} strokeWidth={1.5} /></span>
+              <span className="min-w-0">
+                <span className="block text-caption uppercase text-fg2">{label}</span>
+                <span className="block truncate text-[15px]">{value}</span>
               </span>
             </a>
           ))}
         </div>
 
-        <div className="mt-8 border-t border-white/10 pt-5 text-xs text-[#7D7A87]">
+        <div className="mt-12 border-t border-line/10 pt-5 text-caption text-fg2">
           Prototipo — CiberParaTodos. Datos de ejemplo, no oficiales.
         </div>
       </div>

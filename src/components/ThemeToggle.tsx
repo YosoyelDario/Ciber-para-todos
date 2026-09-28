@@ -1,9 +1,6 @@
 import { Sun, Moon } from "lucide-react";
 
-type Props = {
-  dark: boolean;
-  onToggle: () => void;
-};
+type Props = { dark: boolean; onToggle: () => void };
 
 export default function ThemeToggle({ dark, onToggle }: Props) {
   return (
@@ -11,9 +8,9 @@ export default function ThemeToggle({ dark, onToggle }: Props) {
       onClick={onToggle}
       aria-label="Cambiar tema claro/oscuro"
       title="Cambiar tema"
-      className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/15 bg-white/5 text-white hover:bg-white/10 transition"
+      className="flex h-9 w-9 items-center justify-center rounded-full border border-line/30 text-fg/85 transition hover:bg-glass/10"
     >
-      {dark ? <Moon size={18} /> : <Sun size={18} />}
+      {dark ? <Moon size={17} strokeWidth={1.5} /> : <Sun size={17} strokeWidth={1.5} />}
     </button>
   );
 }

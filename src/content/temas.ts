@@ -1,7 +1,12 @@
+import {
+  MessageSquareWarning, ShieldAlert, LockKeyhole, UserX, MapPin,
+  Fish, Bug, KeyRound, Gamepad2, QrCode, type LucideIcon,
+} from "lucide-react";
+
 export type Tema = {
   group: string;
   title: string;
-  icon: string; // emoji o reemplázalo por una ruta de imagen (ver README)
+  icon: LucideIcon; // ícono de línea; puedes sumar un campo `image` si quieres foto/ilustración
   link: string; // URL "más información"
   body: string;
   tips: string[];
@@ -12,7 +17,7 @@ export const temas: Tema[] = [
   {
     group: "Amenazas interpersonales y conductuales",
     title: "Ciberacoso",
-    icon: "💬",
+    icon: MessageSquareWarning,
     link: "#",
     body: "Es hostigar, burlarse, amenazar o difundir contenido ofensivo sobre otra persona a través de internet o redes sociales, de forma repetida.",
     tips: [
@@ -26,7 +31,7 @@ export const temas: Tema[] = [
   {
     group: "Amenazas interpersonales y conductuales",
     title: "Grooming",
-    icon: "🛡️",
+    icon: ShieldAlert,
     link: "#",
     body: "Ocurre cuando una persona adulta se acerca a un niño, niña o adolescente en internet, generalmente ganándose su confianza poco a poco, con la intención de manipularlo o abusar de él.",
     tips: [
@@ -40,7 +45,7 @@ export const temas: Tema[] = [
   {
     group: "Amenazas interpersonales y conductuales",
     title: "Sexting y difusión no consentida",
-    icon: "🔒",
+    icon: LockKeyhole,
     link: "#",
     body: "El sexting es enviar fotos o videos íntimos por internet. El problema es que, una vez enviados, se pierde el control sobre ellos: pueden reenviarse sin permiso, algo que causa un daño grave y es un delito.",
     tips: [
@@ -53,7 +58,7 @@ export const temas: Tema[] = [
   {
     group: "Amenazas interpersonales y conductuales",
     title: "Suplantación de identidad",
-    icon: "🎭",
+    icon: UserX,
     link: "#",
     body: "Es cuando alguien crea un perfil falso haciéndose pasar por ti (o por otra persona), o usa tu cuenta sin tu permiso para publicar o hablar en tu nombre.",
     tips: [
@@ -67,7 +72,7 @@ export const temas: Tema[] = [
   {
     group: "Amenazas interpersonales y conductuales",
     title: "Exposición excesiva de información",
-    icon: "📍",
+    icon: MapPin,
     link: "#",
     body: "Publicar datos personales, tu ubicación en tiempo real, tus rutinas diarias o muchas fotos puede darle a personas desconocidas información suficiente para ubicarte o conocer tus hábitos.",
     tips: [
@@ -81,7 +86,7 @@ export const temas: Tema[] = [
   {
     group: "Riesgos técnicos y estafas digitales",
     title: "Phishing y mensajes engañosos",
-    icon: "🎣",
+    icon: Fish,
     link: "#",
     body: "Son mensajes o correos que se hacen pasar por una empresa o servicio conocido (un banco, un juego, una red social) para que entregues tu contraseña o tus datos personales o bancarios.",
     tips: [
@@ -95,7 +100,7 @@ export const temas: Tema[] = [
   {
     group: "Riesgos técnicos y estafas digitales",
     title: "Malware y aplicaciones peligrosas",
-    icon: "🦠",
+    icon: Bug,
     link: "#",
     body: "Son programas o archivos que, al instalarse, dañan tu dispositivo, roban tu información o espían lo que haces, muchas veces disfrazados de una app normal.",
     tips: [
@@ -109,7 +114,7 @@ export const temas: Tema[] = [
   {
     group: "Riesgos técnicos y estafas digitales",
     title: "Robo de cuentas y contraseñas",
-    icon: "🔑",
+    icon: KeyRound,
     link: "#",
     body: "Es cuando alguien logra entrar sin tu permiso a tu red social, tu correo o tu cuenta de videojuegos, generalmente porque adivinó, robó o compró tu contraseña.",
     tips: [
@@ -123,7 +128,7 @@ export const temas: Tema[] = [
   {
     group: "Riesgos técnicos y estafas digitales",
     title: "Estafas en videojuegos y redes sociales",
-    icon: "🎮",
+    icon: Gamepad2,
     link: "#",
     body: "Son ofertas falsas de premios, monedas o ítems gratis, o ventas de productos que en realidad no existen, diseñadas para que pagues o entregues tus datos.",
     tips: [
@@ -137,7 +142,7 @@ export const temas: Tema[] = [
   {
     group: "Riesgos técnicos y estafas digitales",
     title: "Enlaces, códigos QR y descargas maliciosas",
-    icon: "🔗",
+    icon: QrCode,
     link: "#",
     body: "Un enlace, código QR o archivo puede llevarte a un sitio falso o instalar un programa peligroso sin que te des cuenta, incluso si parece venir de alguien conocido.",
     tips: [
