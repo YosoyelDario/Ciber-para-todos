@@ -8,9 +8,10 @@ Sitio de divulgación sobre ciberseguridad escolar: módulo educativo con 10 tem
 - **Vite + React + TypeScript**
 - **Tailwind CSS** (dark mode por clase `dark` en `<html>`)
 - **@radix-ui/react-accordion** para el acordeón accesible
-- **react-leaflet + Leaflet** para el mapa, con tiles gratuitos de **CartoDB**
-  (`light_all` en modo claro, `dark_all` en modo oscuro)
+- **react-leaflet + Leaflet** para el mapa (tiles CARTO con clave gratuita, o respaldo OpenStreetMap)
+- **@vis.gl/react-google-maps** como segundo proveedor, intercambiable desde el marco del mapa
 - **lucide-react** para íconos
+- Diseño basado en `DESIGN.md` (fuentes DM Sans + Geist)
 
 ## Cómo correrlo
 
@@ -36,27 +37,61 @@ src/
     temas.ts       ← las 10 temáticas (texto, ícono, link "más información")
     colegios.ts     ← lista de colegios visitados (nombre, lugar, lat/lng)
   components/
-    Header.tsx          ← topbar: toggle de tema, título, logo de la universidad
-    TemasAccordion.tsx  ← acordeón agrupado por categoría
-    SchoolList.tsx       ← lista de colegios (columna izquierda)
-    SchoolMap.tsx         ← mapa Leaflet (columna derecha)
+    Header.tsx          ← nav flotante: toggle de tema, título, logo de la universidad
+    Hero.tsx            ← hero con degradado
+    TemasSection.tsx    ← filas numeradas + panel derecho fijo
+    SchoolsSection.tsx  ← lista + mapa en marco tipo mockup + tarjeta de detalle
+    SchoolList.tsx / SchoolMap.tsx
     Footer.tsx            ← contacto
   App.tsx            ← arma todo y maneja el estado compartido (tema, colegio activo)
 ```
 
+## Mapas: proveedores y claves
+
+El marco del mapa tiene un selector **Leaflet | Google Maps**. Ambos comparten lista, marcadores y tarjeta de detalle.
+Copia `.env.example` a `.env` (no se sube al repo) y completa lo que uses:
+
+| Variable | Para qué | Sin ella |
+|---|---|---|
+| `VITE_CARTO_KEY` | Clave gratuita de tiles CARTO ([solicitar](https://carto.com/basemaps/apikey/)) | Leaflet usa tiles públicos de OpenStreetMap (modo oscuro simulado con filtro CSS) |
+| `VITE_GOOGLE_MAPS_API_KEY` | Google Maps JavaScript API | La pestaña Google muestra instrucciones y no carga nada de Google |
+| `VITE_GOOGLE_MAP_ID` | Map ID propio (opcional) | Usa `DEMO_MAP_ID` |
+
+- La clave de Google queda visible en el navegador (es normal): **restríngela por HTTP referrer** y por API
+  (solo Maps JavaScript API) en Google Cloud Console, y activa alertas de presupuesto.
+- Google solo se carga cuando alguien elige esa pestaña.
+- Nunca subas `.env` ni pegues claves en issues, chats o commits.
+
+## Accesibilidad
+
+Hecho: foco visible en todo control, enlace "Saltar al contenido", landmarks (`header`, `nav`, `main`, `footer`),
+acordeón con Radix (teclado + `aria-expanded`), lista de colegios con `aria-pressed`, marcadores del mapa con nombre
+accesible (Tab + Enter), anuncio de la selección para lectores de pantalla, `Esc` cierra el detalle,
+`prefers-reduced-motion` respetado (CSS y desplazamientos del mapa), tamaños de texto en `rem`, íconos decorativos
+con `aria-hidden`.
+
+Pendiente / manual: probar con un lector de pantalla real (NVDA o VoiceOver), zoom al 200 %, navegación solo con teclado,
+y escribir `imageAlt` en `temas.ts` cuando se agreguen imágenes. El mapa es visual: la lista de colegios es su
+equivalente en texto.
+
+## Diseño
+
+`DESIGN.md` es la referencia visual. Tokens en `src/index.css` (variables CSS, oscuro por defecto;
+clase `light` en `<html>` para la variante clara) y `tailwind.config.js`. El mapa ya no usa las imágenes
+de marcador de Leaflet (marcadores propios en CSS), así que no depende de cdnjs.
+
 ## Cosas para personalizar
 
 - **Logo de la universidad**: reemplaza el bloque punteado en `Header.tsx` por
-  `<img src="/logo-universidad.png" className="h-16 w-16 object-contain" />`.
+  `<img src="/logo-universidad.png" className="h-12 w-12 object-contain" />`.
   Pon el archivo en `public/`.
-- **Imágenes de cada temática**: hoy `TemasAccordion.tsx` muestra el emoji de
-  `tema.icon`. Agrega un campo `image` en `temas.ts` (ruta en `/public` o URL) y
-  cambia ese bloque por un `<img>`.
+- **Imágenes de cada temática**: la tarjeta (`TemaPreview.tsx`) ya tiene un recuadro 16:10 que muestra
+  `tema.image` si existe (ej. `image: "/temas/ciberacoso.jpg"`, con el archivo en `public/temas/`) y, si no,
+  el ícono. En escritorio es el panel fijo de la derecha; en móvil y tablet aparece dentro del desplegable.
 - **Links "Más información"**: hoy apuntan a `"#"`. Actualiza el campo `link`
   de cada tema en `temas.ts`.
 - **Colores y tipografía**: están centralizados en `tailwind.config.js`
-  (paleta `navy`, `paper`, `amber`, `teal`) y en el `<link>` de Google Fonts
-  en `index.html` (Space Grotesk + Inter).
+  y en `src/index.css`; las fuentes se cargan en `index.html`.
 
 ## Siguiente paso: contenido dinámico para el registro de colegios
 

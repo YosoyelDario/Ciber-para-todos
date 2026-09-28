@@ -1,34 +1,42 @@
+import { useEffect, useRef } from "react";
 import { colegios } from "@/content/colegios";
-import { cn } from "@/lib/utils";
+import { prefersReducedMotion } from "@/lib/mapConfig";
 
-type Props = {
-  activeIndex: number | null;
-  onSelect: (index: number) => void;
-};
+type Props = { activeIndex: number | null; onSelect: (index: number) => void };
 
 export default function SchoolList({ activeIndex, onSelect }: Props) {
-  return (
-    <div className="flex max-h-[560px] flex-col border-r border-line dark:border-white/10 md:max-h-none">
-      <div className="border-b border-line px-5 pb-4 pt-5.5 dark:border-white/10">
-        <div className="font-display text-4xl font-bold leading-none text-teal">
-          {colegios.length}
-        </div>
-        <div className="mt-1 text-sm text-ink-soft">colegios visitados este año</div>
-      </div>
+  const ref = useRef<HTMLUListElement>(null);
 
-      <ul className="flex-1 space-y-1 overflow-y-auto p-2">
-        {colegios.map((school, i) => (
-          <li
-            key={school.name}
-            id={`school-${i}`}
-            onClick={() => onSelect(i)}
-            className={cn(
-              "cursor-pointer rounded-lg px-3.5 py-3 hover:bg-teal/10",
-              activeIndex === i && "bg-amber/15 shadow-[inset_3px_0_0_0_theme(colors.amber.DEFAULT)]"
-            )}
-          >
-            <div className="text-[0.98rem] font-semibold">{school.name}</div>
-            <div className="text-sm text-ink-soft">{school.place}</div>
+  // Sincronización mapa → lista: lleva la fila activa a la vista
+  useEffect(() => {
+    if (activeIndex === null) return;
+    ref.current?.children[activeIndex]?.scrollIntoView({
+      block: "nearest",
+      behavior: prefersReducedMotion() ? "auto" : "smooth",
+    });
+  }, [activeIndex]);
+
+  return (
+    <div className="pb-10">
+      <div className="font-geist text-[3rem] font-medium leading-none">{colegios.length}</div>
+      <div className="mb-6 mt-2 text-fg2">colegios visitados este año</div>
+
+      <ul ref={ref} aria-label="Colegios visitados" className="max-h-[420px] space-y-1 overflow-y-auto pr-1">
+        {colegios.map((s, i) => (
+          <li key={s.name}>
+            <button
+              onClick={() => onSelect(i)}
+              aria-pressed={activeIndex === i}
+              className={`flex w-full items-baseline justify-between gap-4 rounded-card border px-4 py-3.5 text-left transition ${
+                activeIndex === i ? "border-line/25 bg-glass/[0.1]" : "border-transparent hover:bg-glass/[0.06]"
+              }`}
+            >
+              <span>
+                <span className={`block text-base ${activeIndex === i ? "text-fg" : "text-fg/90"}`}>{s.name}</span>
+                <span className="block text-sm text-fg2">{s.place}</span>
+              </span>
+              <span aria-hidden="true" className="text-sm tabular-nums text-fg2">{String(i + 1).padStart(2, "0")}</span>
+            </button>
           </li>
         ))}
       </ul>
