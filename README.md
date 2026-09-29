@@ -1,7 +1,6 @@
 # CiberParaTodos
 
-Sitio de divulgación sobre ciberseguridad escolar: módulo educativo con 10 temáticas
-(acordeón) y un registro visual de colegios visitados (lista + mapa sincronizados).
+Sitio de divulgación sobre ciberseguridad escolar: módulo educativo con 10 temáticas y un registro visual de colegios visitados.
 
 ## Stack
 
@@ -11,9 +10,8 @@ Sitio de divulgación sobre ciberseguridad escolar: módulo educativo con 10 tem
 - **react-leaflet + Leaflet** para el mapa (tiles CARTO con clave gratuita, o respaldo OpenStreetMap)
 - **@vis.gl/react-google-maps** como segundo proveedor, intercambiable desde el marco del mapa
 - **lucide-react** para íconos
-- Diseño basado en `DESIGN.md` (fuentes DM Sans + Geist)
 
-## Cómo correrlo
+## Cómo ejecutar
 
 ```bash
 npm install
@@ -49,18 +47,12 @@ src/
 ## Mapas: proveedores y claves
 
 El marco del mapa tiene un selector **Leaflet | Google Maps**. Ambos comparten lista, marcadores y tarjeta de detalle.
-Copia `.env.example` a `.env` (no se sube al repo) y completa lo que uses:
 
 | Variable | Para qué | Sin ella |
 |---|---|---|
 | `VITE_CARTO_KEY` | Clave gratuita de tiles CARTO ([solicitar](https://carto.com/basemaps/apikey/)) | Leaflet usa tiles públicos de OpenStreetMap (modo oscuro simulado con filtro CSS) |
 | `VITE_GOOGLE_MAPS_API_KEY` | Google Maps JavaScript API | La pestaña Google muestra instrucciones y no carga nada de Google |
 | `VITE_GOOGLE_MAP_ID` | Map ID propio (opcional) | Usa `DEMO_MAP_ID` |
-
-- La clave de Google queda visible en el navegador (es normal): **restríngela por HTTP referrer** y por API
-  (solo Maps JavaScript API) en Google Cloud Console, y activa alertas de presupuesto.
-- Google solo se carga cuando alguien elige esa pestaña.
-- Nunca subas `.env` ni pegues claves en issues, chats o commits.
 
 ## Accesibilidad
 
@@ -71,14 +63,9 @@ accesible (Tab + Enter), anuncio de la selección para lectores de pantalla, `Es
 con `aria-hidden`.
 
 Pendiente / manual: probar con un lector de pantalla real (NVDA o VoiceOver), zoom al 200 %, navegación solo con teclado,
-y escribir `imageAlt` en `temas.ts` cuando se agreguen imágenes. El mapa es visual: la lista de colegios es su
+y escribir `imageAlt` en `temas.ts` cuando se agreguen imágenes que sean buenas. El mapa es visual,  la lista de colegios es su
 equivalente en texto.
 
-## Diseño
-
-`DESIGN.md` es la referencia visual. Tokens en `src/index.css` (variables CSS, oscuro por defecto;
-clase `light` en `<html>` para la variante clara) y `tailwind.config.js`. El mapa ya no usa las imágenes
-de marcador de Leaflet (marcadores propios en CSS), así que no depende de cdnjs.
 
 ## Cosas para personalizar
 
@@ -108,7 +95,7 @@ de datos liviana. Recomendado: **Supabase**.
 5. Así, el equipo puede agregar colegios desde el panel de Supabase (como una
    planilla) sin tocar código ni volver a desplegar.
 
-Las 10 temáticas educativas, en cambio, cambian poco — dejarlas versionadas
+Las 10 temáticas educativas, en cambio, cambian poco ya que dejarlas versionadas
 en `temas.ts` dentro del repo (editables por pull request) es intencional.
 
 ## Deploy
@@ -120,4 +107,3 @@ automático al hacer push a `main`:
 - [Netlify](https://netlify.com) — build command `npm run build`, publish
   directory `dist`.
 
-Ambos permiten conectar un dominio propio de la universidad.
