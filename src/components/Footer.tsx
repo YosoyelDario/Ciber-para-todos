@@ -1,9 +1,10 @@
 import { Mail, MessageCircle, Phone, Instagram } from "lucide-react";
 
+// TODO: reemplaza estos datos por los reales de CiberEduca / la oficina a cargo.
 const contacts = [
   { icon: Mail, label: "Correo", value: "contacto@ciberparatodos.cl", href: "mailto:contacto@ciberparatodos.cl" },
   { icon: MessageCircle, label: "WhatsApp", value: "+56 9 0000 0000", href: "https://wa.me/56900000000" },
-  { icon: Phone, label: "Teléfono", value: "+56 32 000 0000", href: "tel:+56320000000" },
+  { icon: Phone, label: "Oficina (profesor a cargo)", value: "+56 9 0000 0000", href: "tel:+56900000000" },
   { icon: Instagram, label: "Instagram", value: "@ciberparatodos", href: "https://instagram.com/ciberparatodos" },
 ];
 
@@ -38,8 +39,23 @@ export default function Footer() {
           })}
         </ul>
 
-        <div className="mt-12 border-t border-line/10 pt-5 text-caption text-fg2">
-          Prototipo — CiberParaTodos. Datos de ejemplo, no oficiales.
+        {/* TODO: reemplazar por el texto real de presentación de CiberEduca */}
+        <div className="mt-10 rounded-card border border-dashed border-line/25 p-5 text-[0.9375rem] text-fg2">
+          <div className="mb-1 text-caption uppercase text-fg">Sobre CiberEduca</div>
+          Escribe aquí una o dos oraciones sobre el programa CiberEduca: qué es, quién lo impulsa
+          y cómo se relaciona con CiberParaTodos. (Este bloque es un marcador de posición.)
+        </div>
+
+        <div className="mt-10 flex flex-col items-start justify-between gap-6 border-t border-line/10 pt-8 sm:flex-row sm:items-center">
+          <div>
+            <div className="mb-2 text-caption uppercase text-fg2">Un proyecto de</div>
+            <img
+              src="/logoU.png"
+              alt="Escuela de Ingeniería Informática — Pontificia Universidad Católica de Valparaíso"
+              className="brand-logo-invert h-9 w-auto"
+            />
+          </div>
+          <div className="text-caption text-fg2">Prototipo — CiberParaTodos. Datos de ejemplo, no oficiales.</div>
         </div>
       </div>
     </footer>

@@ -3,6 +3,7 @@ import { MapPin, ArrowUpRight, X } from "lucide-react";
 import { colegios } from "@/content/colegios";
 import SectionHeader from "./SectionHeader";
 import SchoolList from "./SchoolList";
+import SchoolPhotoBook from "./SchoolPhotoBook";
 import LeafletMap from "./LeafletMap";
 import GoogleMapView from "./GoogleMapView";
 
@@ -99,6 +100,7 @@ export default function SchoolsSection({ dark }: { dark: boolean }) {
               <div className="mt-1 text-caption tabular-nums text-fg2">
                 {school.lat.toFixed(4)}, {school.lng.toFixed(4)}
               </div>
+              {school.photos && school.photos.length > 0 && <SchoolPhotoBook photos={school.photos} />}
               <a
                 href={`https://www.openstreetmap.org/?mlat=${school.lat}&mlon=${school.lng}#map=14/${school.lat}/${school.lng}`}
                 target="_blank" rel="noopener noreferrer"
