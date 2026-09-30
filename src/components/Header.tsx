@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Shield, PanelLeftOpen, X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
+import AccessibilityMenu from "./AccessibilityMenu";
 import { useActiveSection } from "@/lib/useActiveSection";
 
 type Props = { dark: boolean; onToggleTheme: () => void };
@@ -34,6 +35,7 @@ function TopNav({ dark, onToggleTheme, big, onCollapse }: Props & { big: boolean
     >
       <div className="flex items-center gap-2">
         <ThemeToggle dark={dark} onToggle={onToggleTheme} />
+        <AccessibilityMenu />
         <a href="#temas" className={ghost}>Temas</a>
         <a href="#colegios" className={ghost}>Colegios</a>
       </div>
@@ -51,10 +53,12 @@ function TopNav({ dark, onToggleTheme, big, onCollapse }: Props & { big: boolean
             <X size={16} strokeWidth={1.5} aria-hidden="true" />
           </button>
         )}
-        {/* Logo universidad: reemplaza por <img src="/logo-universidad.png" className="h-12 w-12 object-contain" /> */}
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-ui border border-dashed border-line/40 text-center text-[0.625rem] leading-tight text-fg2">
-          <img src="/logoU.png" className="h-12 w-12 object-contain" />  
-        </div>
+        {/* Escudo de la universidad. Si más adelante usan el lockup ancho, va mejor en el footer (ver Footer.tsx). */}
+        <img
+          src="/escudoU.png"
+          alt="Escudo de la Pontificia Universidad Católica de Valparaíso"
+          className="h-11 w-11 shrink-0 rounded-full bg-white object-contain p-0.5"
+        />
       </div>
     </nav>
   );
@@ -99,6 +103,7 @@ export default function Header({ dark, onToggleTheme }: Props) {
       ) : (
         <div className="fixed left-4 top-1/2 z-[2000] hidden -translate-y-1/2 animate-fade-up flex-col gap-2 rounded-full border border-line/20 bg-surface/80 p-2 backdrop-blur-sm sm:flex">
           <ThemeToggle dark={dark} onToggle={onToggleTheme} />
+          <AccessibilityMenu />
           <button
             onClick={() => setExpanded(true)}
             aria-label="Mostrar el menú principal"

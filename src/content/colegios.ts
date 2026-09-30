@@ -3,6 +3,13 @@ export type Colegio = {
   place: string;
   lat: number;
   lng: number;
+  /**
+   * Fotos de la visita (grupo, exposición, etc.), para el futuro carrusel
+   * tipo "álbum" dentro de la tarjeta del mapa. Ejemplo:
+   * photos: [{ src: "/visitas/liceo-valpo-1.jpg", alt: "El equipo presentando en el liceo" }]
+   * Mientras el arreglo esté vacío o ausente, la tarjeta no muestra el álbum.
+   */
+  photos?: { src: string; alt: string }[];
 };
 
 // Datos de ejemplo. Cuando conecten Supabase (ver README), esto se
