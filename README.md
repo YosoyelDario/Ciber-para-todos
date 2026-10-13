@@ -60,7 +60,7 @@ src/
 ## Mapas: proveedores y claves
 
 El marco del mapa tiene un selector **Leaflet | Google Maps**. Ambos comparten lista, marcadores y tarjeta de detalle.
-Copia `.env.example` a `.env`y completa lo que uses:
+Copia `.env.example` a `.env`y completa con las claves que vayas a utilizar:
 
 | Variable | Para qué | Sin ella |
 |---|---|---|
