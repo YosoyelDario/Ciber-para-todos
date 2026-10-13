@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { ChevronRight } from "lucide-react";
 import { colegios } from "@/content/colegios";
 import { prefersReducedMotion } from "@/lib/mapConfig";
 
@@ -21,13 +22,13 @@ export default function SchoolList({ activeIndex, onSelect }: Props) {
       <div className="font-geist text-[3rem] font-medium leading-none">{colegios.length}</div>
       <div className="mb-6 mt-2 text-fg2">colegios visitados este año</div>
 
-      <ul ref={ref} aria-label="Colegios visitados" className="max-h-[420px] space-y-1 overflow-y-auto pr-1">
+      <ul ref={ref} aria-label="Colegios visitados" className="max-h-[26.25rem] space-y-1 overflow-y-auto pr-1">
         {colegios.map((s, i) => (
           <li key={s.name}>
             <button
               onClick={() => onSelect(i)}
               aria-pressed={activeIndex === i}
-              className={`flex w-full items-baseline justify-between gap-4 rounded-card border px-4 py-3.5 text-left transition ${
+              className={`flex w-full items-center justify-between gap-4 rounded-card border px-4 py-3.5 text-left transition ${
                 activeIndex === i ? "border-line/25 bg-glass/[0.1]" : "border-transparent hover:bg-glass/[0.06]"
               }`}
             >
@@ -35,7 +36,12 @@ export default function SchoolList({ activeIndex, onSelect }: Props) {
                 <span className={`block text-base ${activeIndex === i ? "text-fg" : "text-fg/90"}`}>{s.name}</span>
                 <span className="block text-sm text-fg2">{s.place}</span>
               </span>
-              <span aria-hidden="true" className="text-sm tabular-nums text-fg2">{String(i + 1).padStart(2, "0")}</span>
+              <ChevronRight
+                aria-hidden="true"
+                size={18}
+                strokeWidth={1.5}
+                className={`shrink-0 transition ${activeIndex === i ? "translate-x-0.5 text-fg" : "text-fg2"}`}
+              />
             </button>
           </li>
         ))}

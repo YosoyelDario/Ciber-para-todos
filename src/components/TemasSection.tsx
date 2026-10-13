@@ -1,5 +1,6 @@
 import { useState } from "react";
 import * as Accordion from "@radix-ui/react-accordion";
+import { ChevronDown } from "lucide-react";
 import { temas } from "@/content/temas";
 import SectionHeader from "./SectionHeader";
 import { MoreLink, TemaCard, TemaFigure } from "./TemaPreview";
@@ -28,16 +29,16 @@ export default function TemasSection() {
         >
           {groups.map((group, gi) => (
             <div key={group} role="group" aria-labelledby={`grupo-${gi}`} className="mb-10 last:mb-0">
-              <div id={`grupo-${gi}`} className="mb-3 text-caption uppercase text-fg2">{group}</div>
-              {temas.map((tema, i) =>
+              <h3 id={`grupo-${gi}`} className="mb-3 font-geist text-xl font-medium text-fg sm:text-2xl">{group}</h3>
+              {temas.map((tema) =>
                 tema.group !== group ? null : (
                   <Accordion.Item key={tema.title} value={tema.title}>
                     <Accordion.Header>
-                      <Accordion.Trigger className="group flex w-full items-baseline justify-between gap-6 py-3.5 text-left">
-                        <span className="text-[1.0625rem] text-fg2 transition group-hover:text-fg group-data-[state=open]:text-fg">
+                      <Accordion.Trigger className="group flex w-full items-center justify-between gap-6 py-3.5 text-left">
+                        <span className="text-[1.125rem] text-fg2 transition group-hover:text-fg group-data-[state=open]:text-fg">
                           {tema.title}
                         </span>
-                        <span aria-hidden="true" className="text-sm tabular-nums text-fg2">{String(i + 1).padStart(2, "0")}</span>
+                        <ChevronDown aria-hidden="true" size={20} strokeWidth={1.5} className="shrink-0 text-fg2 transition-transform duration-200 group-hover:text-fg group-data-[state=open]:rotate-180 group-data-[state=open]:text-fg" />
                       </Accordion.Trigger>
                     </Accordion.Header>
                     <Accordion.Content className="overflow-hidden data-[state=closed]:animate-acc-up data-[state=open]:animate-acc-down">

@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Settings2, Minus, Plus, RotateCcw } from "lucide-react";
 
-const MIN = 0.875;
-const MAX = 1.3;
-const STEP = 0.125;
+const MIN = 0.5;
+const MAX = 2;
+const STEP = 0.25;
 const DEFAULT_SCALE = 1;
 
 const clamp = (n: number) => Math.min(MAX, Math.max(MIN, n));
@@ -56,7 +56,7 @@ export default function AccessibilityMenu() {
         aria-expanded={open}
         aria-label="Opciones de accesibilidad"
         title="Accesibilidad"
-        className="flex h-9 w-9 items-center justify-center rounded-full border border-line/30 text-fg/85 transition hover:bg-glass/10"
+        className="flex h-9 min-h-[36px] w-9 min-w-[36px] items-center justify-center rounded-full border border-line/30 text-fg/85 transition hover:bg-glass/10"
       >
         <Settings2 size={17} strokeWidth={1.5} aria-hidden="true" />
       </button>
@@ -65,7 +65,7 @@ export default function AccessibilityMenu() {
         <div
           role="menu"
           aria-label="Opciones de accesibilidad"
-          className="absolute left-0 top-11 z-10 w-60 rounded-card border border-line/20 bg-surface p-3.5 text-fg"
+          className="absolute left-0 top-full z-10 mt-2 w-max max-w-[calc(100vw-3rem)] rounded-card border border-line/20 bg-surface p-3.5 text-fg"
         >
           <div className="mb-2 text-caption uppercase text-fg2">Tamaño de letra</div>
           <div className="flex items-center gap-2">
@@ -95,7 +95,7 @@ export default function AccessibilityMenu() {
               <RotateCcw size={13} strokeWidth={1.5} aria-hidden="true" />
             </button>
           </div>
-          <p className="mt-3 text-[0.8125rem] text-fg2">Elegir tipografía: próximamente.</p>
+          <p className="mt-3 max-w-[16rem] text-[0.8125rem] text-fg2">De 50% a 125%.</p>
         </div>
       )}
     </div>

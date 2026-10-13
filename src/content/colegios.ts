@@ -1,15 +1,21 @@
+export type Foto = { src: string; alt: string };
+
 export type Colegio = {
   name: string;
   place: string;
   lat: number;
   lng: number;
   /**
-   * Fotos de la visita (grupo, exposición, etc.), para el futuro carrusel
-   * tipo "álbum" dentro de la tarjeta del mapa. Ejemplo:
-   * photos: [{ src: "/visitas/liceo-valpo-1.jpg", alt: "El equipo presentando en el liceo" }]
-   * Mientras el arreglo esté vacío o ausente, la tarjeta no muestra el álbum.
+   * Foto de portada (primer plano del colegio). Aparece arriba en la tarjeta del mapa.
+   * Ejemplo: coverPhoto: { src: "/colegios/liceo-valpo/portada.jpg", alt: "Fachada del Liceo Bicentenario" }
    */
-  photos?: { src: string; alt: string }[];
+  coverPhoto?: Foto;
+  /**
+   * Fotos de la visita (equipo, exposición, etc.). Se muestran como una tira que se desplaza
+   * y un botón "Ver álbum completo". Mientras falten, la tarjeta no muestra nada de esto.
+   * Ejemplo: photos: [{ src: "/colegios/liceo-valpo/1.jpg", alt: "El equipo presentando en el aula" }]
+   */
+  photos?: Foto[];
 };
 
 // Datos de ejemplo. Cuando conecten Supabase (ver README), esto se
