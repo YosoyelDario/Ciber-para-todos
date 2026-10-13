@@ -3,7 +3,7 @@ import { MapPin, ArrowUpRight, X } from "lucide-react";
 import { colegios } from "@/content/colegios";
 import SectionHeader from "./SectionHeader";
 import SchoolList from "./SchoolList";
-import SchoolPhotoBook from "./SchoolPhotoBook";
+import { SchoolAlbum, SchoolCover } from "./SchoolAlbum";
 import LeafletMap from "./LeafletMap";
 import GoogleMapView from "./GoogleMapView";
 
@@ -45,7 +45,7 @@ export default function SchoolsSection({ dark }: { dark: boolean }) {
         {school ? `Colegio seleccionado: ${school.name}, ${school.place}.` : ""}
       </p>
 
-      <div className="mt-12 grid items-end gap-10 lg:grid-cols-[340px_1fr]">
+      <div className="mt-12 grid items-end gap-10 lg:grid-cols-[21.25rem_1fr]">
         <SchoolList activeIndex={active} onSelect={setActive} />
 
         {/* Device Mockup Frame: esquinas superiores 40px, base pegada al borde de la sección */}
@@ -84,7 +84,7 @@ export default function SchoolsSection({ dark }: { dark: boolean }) {
           </div>
 
           {school && (
-            <div key={active} className="absolute bottom-4 left-4 right-4 z-[1100] animate-fade-up rounded-card border border-line/20 bg-surface/85 p-5 backdrop-blur-sm md:right-auto md:w-[340px]">
+            <div key={active} className="absolute bottom-4 left-4 right-4 z-[1100] max-h-[calc(100%-5rem)] animate-fade-up overflow-y-auto rounded-card border border-line/20 bg-surface/85 p-5 backdrop-blur-sm md:right-auto md:w-[21.25rem]">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <div className="text-caption uppercase text-fg2">Colegio visitado</div>
@@ -97,10 +97,11 @@ export default function SchoolsSection({ dark }: { dark: boolean }) {
               <div className="mt-2 flex items-center gap-1.5 text-fg2">
                 <MapPin size={14} strokeWidth={1.5} aria-hidden="true" /> {school.place}
               </div>
+              {school.coverPhoto && <SchoolCover photo={school.coverPhoto} />}
               <div className="mt-1 text-caption tabular-nums text-fg2">
                 {school.lat.toFixed(4)}, {school.lng.toFixed(4)}
               </div>
-              {school.photos && school.photos.length > 0 && <SchoolPhotoBook photos={school.photos} />}
+              {school.photos && school.photos.length > 0 && <SchoolAlbum photos={school.photos} schoolName={school.name} />}
               <a
                 href={`https://www.openstreetmap.org/?mlat=${school.lat}&mlon=${school.lng}#map=14/${school.lat}/${school.lng}`}
                 target="_blank" rel="noopener noreferrer"
