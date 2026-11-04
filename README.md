@@ -1,5 +1,7 @@
 # CiberParaTodos
 
+La integración actual de Google Drive, roles y ejecución del backend está documentada en [DRIVE_SETUP.md](DRIVE_SETUP.md). Usa dos terminales: `npm.cmd run server` y `npm.cmd run dev`. Las subcarpetas ya están asociadas en la configuración local; la conexión de la aplicación con Google requiere completar credenciales. Los permisos se guardan en SQLite.
+
 Sitio de divulgación sobre ciberseguridad, con diez tematicas  y un registro visual de colegios visitados en los cuales se fue a presentar.
 
 ## Stack
@@ -123,6 +125,8 @@ Evaluar usar imagenes .webp
 - [ ] Pendiente manual de accesibilidad: lector de pantalla real (NVDA/VoiceOver), zoom 200 %, solo teclado.
 
 ## Por implementar
+
+La integración de Drive y los roles ya están implementados: consulta `DRIVE_SETUP.md` para activarlos. El plan de Sheets/CSV que sigue es una propuesta anterior y no forma parte de esta integración.
 
 - [ ] **Colegios desde Google Sheets (CSV)** y **fotos desde Google Drive**, una carpeta por colegio (ver *Plan de datos y deploy*).
 - [ ] Definir el esquema de la hoja y la convención de carpetas/nombres de archivo de las fotos.

@@ -3,3 +3,26 @@ dist
 .env
 .env.local
 .DS_Store
+server/config.local.json
+server/data/
+secrets/
+*.tsbuildinfo
+public/pdfjs-assets/
+
+# Entorno privado y credenciales
+.env.*
+!.env.example
+*.pem
+*.key
+credentials*.json
+token*.json
+service-account*.json
+# Datos locales y archivos temporales
+*.sqlite
+*.sqlite-*
+*.db
+*.db-*
+*.log
+*.tmp
+tmp/
+.tmp/

@@ -4,9 +4,12 @@ import { ChevronDown } from "lucide-react";
 import { temas } from "@/content/temas";
 import SectionHeader from "./SectionHeader";
 import { MoreLink, TemaCard, TemaFigure } from "./TemaPreview";
+import { MaterialBrowser } from './DriveMaterials';
+import { driveButton } from '@/lib/drive';
 
 export default function TemasSection() {
   const [open, setOpen] = useState("");
+  const [materialTitle, setMaterialTitle] = useState<string | null>(null);
   const [selected, setSelected] = useState(temas[0].title);
   const groups = Array.from(new Set(temas.map((t) => t.group)));
   const current = temas.find((t) => t.title === selected)!;
@@ -17,7 +20,7 @@ export default function TemasSection() {
       <SectionHeader
         id="temas-titulo"
         title="Temas para conversar con los estudiantes"
-        text="Elige un tema para ver la explicación, una imagen y un ejemplo cercano."
+        text="Haz clic en un tema para ver sus materiales como una presentación. Usa la flecha para desplegar su explicación y consejos."
       />
 
       <div className="mt-12 grid gap-12 lg:grid-cols-[1fr_380px]">
@@ -33,11 +36,11 @@ export default function TemasSection() {
               {temas.map((tema) =>
                 tema.group !== group ? null : (
                   <Accordion.Item key={tema.title} value={tema.title}>
-                    <Accordion.Header>
-                      <Accordion.Trigger className="group flex w-full items-center justify-between gap-6 py-3.5 text-left">
-                        <span className="text-[1.125rem] text-fg2 transition group-hover:text-fg group-data-[state=open]:text-fg">
+                    <Accordion.Header className="flex items-center justify-between gap-4">
+                      <button onClick={() => { setSelected(tema.title); setMaterialTitle(tema.title); }} aria-haspopup="dialog" className="flex-1 py-3.5 text-left text-[1.125rem] text-fg2 transition hover:text-fg">
                           {tema.title}
-                        </span>
+                      </button>
+                      <Accordion.Trigger aria-label={`Mostrar explicación y consejos de ${tema.title}`} className="group rounded-full p-3">
                         <ChevronDown aria-hidden="true" size={20} strokeWidth={1.5} className="shrink-0 text-fg2 transition-transform duration-200 group-hover:text-fg group-data-[state=open]:rotate-180 group-data-[state=open]:text-fg" />
                       </Accordion.Trigger>
                     </Accordion.Header>
@@ -55,6 +58,7 @@ export default function TemasSection() {
 
                         {/* Donde antes estaba el ejemplo */}
                         <MoreLink tema={tema} className="mt-5" />
+                        <div><button className={`${driveButton} mt-4`} onClick={() => setMaterialTitle(tema.title)}>Consultar materiales de {tema.title}</button></div>
                       </div>
                     </Accordion.Content>
                   </Accordion.Item>
@@ -71,6 +75,7 @@ export default function TemasSection() {
           </div>
         </aside>
       </div>
+      {materialTitle && <MaterialBrowser title={materialTitle} onClose={() => setMaterialTitle(null)} />}
     </section>
   );
 }
