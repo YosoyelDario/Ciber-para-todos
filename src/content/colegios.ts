@@ -18,8 +18,8 @@ export type Colegio = {
   photos?: Foto[];
 };
 
-// Datos de ejemplo. Cuando conecten Supabase (ver README), esto se
-// reemplaza por un fetch a la tabla `colegios`.
+// Catálogo y coordenadas existentes. Drive aporta solo las fotos mediante
+// una correspondencia explícita de carpetas en server/config.local.json.
 export const colegios: Colegio[] = [
   { name: "Liceo Bicentenario Valparaíso", place: "Valparaíso", lat: -33.0472, lng: -71.6127 },
   { name: "Colegio San Ignacio", place: "Santiago", lat: -33.45, lng: -70.6667 },
